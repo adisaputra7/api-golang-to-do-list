@@ -2,9 +2,12 @@ package main // package declaration
 
 import (
 	"database/sql"
+	"log"
+	"os"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
@@ -20,14 +23,14 @@ type Activity struct {
 }
 
 func initDB() (*sql.DB, error) {
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	log.Fatal("Error loading .env file")
-	// }
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
-	// db_user := os.Getenv("API_DB")
+	db_user := os.Getenv("API_DB")
 	// initDB function
-	dns := "user=postgres.orskzevwrnwccsmkiskg password=7#2PdZ2afYe-NWU host=aws-0-ap-southeast-1.pooler.supabase.com port=6543 dbname=postgres"
+	dns := db_user
 	db, err := sql.Open("postgres", dns)
 	if err != nil {
 		return nil, err
@@ -120,5 +123,5 @@ func main() {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{"status": "Activity deleted successfully"})
 	})
 
-	app.Listen(":8000")
+	app.Listen(":8080")
 }
