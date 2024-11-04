@@ -2,11 +2,9 @@ package main // package declaration
 
 import (
 	"database/sql"
-	"log"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
@@ -22,10 +20,10 @@ type Activity struct {
 }
 
 func initDB() (*sql.DB, error) {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
 
 	// db_user := os.Getenv("API_DB")
 	// initDB function
