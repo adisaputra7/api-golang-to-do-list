@@ -2,6 +2,7 @@ package main // package declaration
 
 import (
 	"database/sql"
+	"log"
 	"os"
 
 	"github.com/go-playground/validator/v10"
@@ -22,11 +23,14 @@ type Activity struct {
 }
 
 func initDB() (*sql.DB, error) {
-	err := godotenv.Load(".env")
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
-	greeting := os.Getenv("API-DB")
+	db_user := os.Getenv("API_DB")
 	// initDB function
-	dns := greeting
+	dns := db_user
 	db, err := sql.Open("postgres", dns)
 	if err != nil {
 		return nil, err
