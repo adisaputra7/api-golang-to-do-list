@@ -120,5 +120,5 @@ func main() {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{"status": "Activity deleted successfully"})
 	})
 
-	app.Listen(":8081")
+	app.Listen(":8000")
 }
