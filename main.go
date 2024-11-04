@@ -3,7 +3,6 @@ package main // package declaration
 import (
 	"database/sql"
 	"log"
-	"os"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -28,9 +27,9 @@ func initDB() (*sql.DB, error) {
 		log.Fatal("Error loading .env file")
 	}
 
-	db_user := os.Getenv("API_DB")
+	// db_user := os.Getenv("API_DB")
 	// initDB function
-	dns := db_user
+	dns := "user=postgres.orskzevwrnwccsmkiskg password=7#2PdZ2afYe-NWU host=aws-0-ap-southeast-1.pooler.supabase.com port=6543 dbname=postgres"
 	db, err := sql.Open("postgres", dns)
 	if err != nil {
 		return nil, err
