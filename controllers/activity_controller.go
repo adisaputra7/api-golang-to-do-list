@@ -44,6 +44,8 @@ func (controller *ActivityController) CreateActivity(c *fiber.Ctx) error {
 }
 
 func (controller *ActivityController) UpdateActivity(c *fiber.Ctx) error {
+	id := c.Params("id") // Ambil ID dari URL
+
 	var activity models.Activity
 	if err := c.BodyParser(&activity); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
@@ -53,10 +55,19 @@ func (controller *ActivityController) UpdateActivity(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	err := controller.Service.UpdateActivity(activity)
+	// Set the ID of the activity
+	activityID, err := strconv.Atoi(id)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
+	}
+	activity.ID = activityID
+
+	// Update activity berdasarkan ID yang diterima
+	err = controller.Service.UpdateActivity(activity)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
+
 	return c.JSON(fiber.Map{"message": "Activity updated successfully"})
 }
 
